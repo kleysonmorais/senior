@@ -1,29 +1,18 @@
-<mat-toolbar>
+<mat-toolbar class="mat-elevation-z8">
   <mat-toolbar-row>
-    <strong>Desafio Fábrica de Software</strong>
-    <span class="example-spacer"></span>
-    <!-- <mat-icon class="example-icon" aria-hidden="false" aria-label="Example heart icon">favorite</mat-icon>
-    <mat-icon class="example-icon" aria-hidden="false" aria-label="Example delete icon">delete</mat-icon> -->
-    <mat-form-field>
-      <mat-label>Perfil</mat-label>
-      <mat-select>
-        <mat-option>
-          Solicitante
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <strong>Soft</strong>
+    <span class="spacer"></span>
+    <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-info" id="dropdownBasic1" ngbDropdownToggle>Alterar Perfil</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button ngbDropdownItem (click)="navigate('requester')">Solicitante</button>
+          <button ngbDropdownItem (click)="navigate('approver')">Aprovador</button>
+          <button ngbDropdownItem (click)="navigate('admin')" >Administrador</button>
+        </div>
+      </div>
   </mat-toolbar-row>
 </mat-toolbar>
 
 <div class="container">
-  <mat-card class="mt-2">Simple card</mat-card>
-
-  <!-- <div class="card" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-        content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-  </div> -->
+  <router-outlet></router-outlet>
 </div>

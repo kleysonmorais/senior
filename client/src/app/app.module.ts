@@ -10,18 +10,27 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 import {
   MatCardModule,
   MatButtonModule,
   MatToolbarModule,
   MatSelectModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatTableModule,
+  MatInputModule
 } from '@angular/material';
+import { AdminComponent } from './components/admin/admin.component';
+import { RequestComponent } from './components/request/request.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    AdminComponent,
+    RequestComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +41,11 @@ import {
     MatButtonModule,
     MatToolbarModule,
     MatSelectModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatInputModule,
+    RouterModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent]

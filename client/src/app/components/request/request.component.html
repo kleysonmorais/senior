@@ -1,0 +1,67 @@
+<mat-card class="mt-2">
+  <div class="jumbotron">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <h2>Reactive Form Validation</h2>
+          <form [formGroup]="registerItem" (ngSubmit)="onSubmitItem()">
+            <div class="form-group">
+              <label>Nome</label>
+              <input type="text" placeholder="Solicitante" formControlName="nameRequester" class="form-control"
+                [ngClass]="{ 'is-invalid': submittedItem && f.nameRequester.errors }" />
+              <div *ngIf="submittedItem && f.nameRequester.errors" class="invalid-feedback">
+                <div *ngIf="f.nameRequester.errors.required">Nome é obrigatório</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Descrição</label>
+              <textarea type="text" rows="4" placeholder="Descreva o item" formControlName="descriptionItem"
+                class="form-control" [ngClass]="{ 'is-invalid': submittedItem && f.descriptionItem.errors }"></textarea>
+              <div *ngIf="submittedItem && f.descriptionItem.errors" class="invalid-feedback">
+                <div *ngIf="f.descriptionItem.errors.required">Descrição é obrigatória</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Preço</label>
+              <input type="number" placeholder="R$ 00,00" formControlName="price" class="form-control"
+                [ngClass]="{ 'is-invalid': submittedItem && f.price.errors }" />
+              <div *ngIf="submittedItem && f.price.errors" class="invalid-feedback">
+                <div *ngIf="f.price.errors.required">Preço é obrigatório</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button [disabled]="loading" class="btn btn-primary">Solicitar</button>
+            </div>
+          </form>
+
+          <form [formGroup]="resolveSolicitation" (ngSubmit)="onSubmitResponse()">
+            <div class="form-group">
+              <mat-form-field>
+                <mat-label>Responder</mat-label>
+                <mat-select [formControl]="actionControl" required>
+                  <!-- <mat-option>--</mat-option> -->
+                  <mat-option *ngFor="let action of actions" [value]="action.value">
+                    {{action.viewValue}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="actionControl.hasError('required')">Por favor, escolha uma ação!</mat-error>
+                <!-- <mat-hint>{{action.value?.sound}}</mat-hint> -->
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <label>Observação</label>
+              <textarea type="text" rows="4" placeholder="Por favor, informe o motivo" formControlName="observation"
+                class="form-control" [ngClass]="{ 'is-invalid': submittedResponse && g.observation.errors }"></textarea>
+              <div *ngIf="submittedResponse && g.observation.errors" class="invalid-feedback">
+                <div *ngIf="g.observation.errors.required">Em caso de recusão, uma descrição é obrigatória</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button [disabled]="loading" class="btn btn-primary">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-card>

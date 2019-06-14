@@ -1,0 +1,45 @@
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!-- id -->
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> ID </th>
+    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+  </ng-container>
+
+  <!-- createAt -->
+  <ng-container matColumnDef="createAt">
+    <th mat-header-cell *matHeaderCellDef> Data de Criação </th>
+    <td mat-cell *matCellDef="let element"> {{element.createAt}} </td>
+  </ng-container>
+
+  <!-- nameRequester -->
+  <ng-container matColumnDef="nameRequester">
+    <th mat-header-cell *matHeaderCellDef> Solicitante </th>
+    <td mat-cell *matCellDef="let element"> {{element.nameRequester}} </td>
+  </ng-container>
+
+  <!-- descriptionItem  -->
+  <ng-container matColumnDef="descriptionItem">
+    <th mat-header-cell *matHeaderCellDef> Descrição </th>
+    <td mat-cell *matCellDef="let element"> {{element.descriptionItem}} </td>
+  </ng-container>
+
+  <!-- price -->
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef> Preço </th>
+    <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+  </ng-container>
+
+  <!-- status -->
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
