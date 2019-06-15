@@ -7,18 +7,18 @@
           <form [formGroup]="registerItem" (ngSubmit)="onSubmitItem()">
             <div class="form-group">
               <label>Nome</label>
-              <input type="text" placeholder="Solicitante" formControlName="nameRequester" class="form-control"
-                [ngClass]="{ 'is-invalid': submittedItem && f.nameRequester.errors }" />
-              <div *ngIf="submittedItem && f.nameRequester.errors" class="invalid-feedback">
-                <div *ngIf="f.nameRequester.errors.required">Nome é obrigatório</div>
+              <input type="text" placeholder="Solicitante" formControlName="name" class="form-control"
+                [ngClass]="{ 'is-invalid': submittedItem && f.name.errors }" />
+              <div *ngIf="submittedItem && f.name.errors" class="invalid-feedback">
+                <div *ngIf="f.name.errors.required">Nome é obrigatório</div>
               </div>
             </div>
             <div class="form-group">
               <label>Descrição</label>
-              <textarea type="text" rows="4" placeholder="Descreva o item" formControlName="descriptionItem"
-                class="form-control" [ngClass]="{ 'is-invalid': submittedItem && f.descriptionItem.errors }"></textarea>
-              <div *ngIf="submittedItem && f.descriptionItem.errors" class="invalid-feedback">
-                <div *ngIf="f.descriptionItem.errors.required">Descrição é obrigatória</div>
+              <textarea type="text" rows="4" placeholder="Descreva o item" formControlName="description"
+                class="form-control" [ngClass]="{ 'is-invalid': submittedItem && f.description.errors }"></textarea>
+              <div *ngIf="submittedItem && f.description.errors" class="invalid-feedback">
+                <div *ngIf="f.description.errors.required">Descrição é obrigatória</div>
               </div>
             </div>
             <div class="form-group">

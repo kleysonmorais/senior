@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { ApiService } from 'src/app/services/api.service';
 
 export interface ControllerItem {
   id: number,
@@ -44,9 +45,14 @@ const ELEMENT_DATA: ControllerItem[] = [
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(private api: ApiService) { }
 
   ngOnInit() {
+    this.api.getProducts().subscribe(
+      products => {
+        console.log(products)
+      }
+    )
   }
 
   displayedColumns: string[] = ['id', 'createAt', 'nameRequester', 'descriptionItem', 'price', 'status'];

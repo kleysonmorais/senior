@@ -12,6 +12,8 @@ import { HomeComponent } from './components/home/home.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { HttpClientModule  } from '@angular/common/http';
+
 import {
   MatCardModule,
   MatButtonModule,
@@ -24,6 +26,7 @@ import {
 import { AdminComponent } from './components/admin/admin.component';
 import { RequestComponent } from './components/request/request.component';
 import { RouterModule } from '@angular/router';
+import { ApiService } from './services/api.service';
 
 @NgModule({
   declarations: [
@@ -45,9 +48,10 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     MatTableModule,
     MatInputModule,
-    RouterModule.forRoot([])
+    RouterModule.forRoot([]),
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
