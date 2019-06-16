@@ -1,42 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { ApiService } from 'src/app/services/api.service';
+import { FormControl } from '@angular/forms';
 
-export interface ControllerItem {
-  id: number,
-  createAt: Date,
-  nameRequester: string;
-  descriptionItem: string;
-  price: number;
-  status: string;
+export interface Action {
+  value: string;
+  viewValue: string;
 }
-
-const ELEMENT_DATA: ControllerItem[] = [
-  {
-    id: 1,
-    createAt: new Date(),
-    nameRequester: "Cadeira",
-    descriptionItem: "Estamos Precisando de Cadeiras",
-    price: 15.5,
-    status: "APROVADO"
-  },
-  {
-    id: 1,
-    createAt: new Date(),
-    nameRequester: "Cadeira",
-    descriptionItem: "Estamos Precisando de Cadeiras",
-    price: 15.5,
-    status: "APROVADO"
-  },
-  {
-    id: 1,
-    createAt: new Date(),
-    nameRequester: "Cadeira",
-    descriptionItem: "Estamos Precisando de Cadeiras",
-    price: 15.5,
-    status: "APROVADO"
-  },
-];
 
 @Component({
   selector: 'app-admin',
@@ -45,21 +14,28 @@ const ELEMENT_DATA: ControllerItem[] = [
 })
 export class AdminComponent implements OnInit {
 
+  products;
+  filter;
+  subscribeProduct = products => this.products = products
+  actionControl = new FormControl('');
+  actions: Action[] = [
+    { value: '', viewValue: 'Todos' },
+    { value: 'approve', viewValue: 'Aprovados' },
+    { value: 'refuse', viewValue: 'Recusados' },
+    { value: 'pending', viewValue: 'Pendentes' }
+  ];
+
   constructor(private api: ApiService) { }
 
   ngOnInit() {
-    this.api.getProducts().subscribe(
-      products => {
-        console.log(products)
-      }
-    )
+    this.api.getProductsParams().subscribe(this.subscribeProduct)
   }
-
-  displayedColumns: string[] = ['id', 'createAt', 'nameRequester', 'descriptionItem', 'price', 'status'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.api.getProductsParams(filterValue.trim().toLowerCase(), this.actionControl.value).subscribe(this.subscribeProduct)
   }
 
+  selectOption(filterValue: string) {
+    this.api.getProductsParams(filterValue.trim().toLowerCase(), this.actionControl.value).subscribe(this.subscribeProduct)
+  }
 }

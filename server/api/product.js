@@ -2,7 +2,7 @@ module.exports = app => {
 
     const { existsOrError, notExistsOrError, equalsOrError } = app.api.validation
 
-    const save = (req, res) => {
+    const saveProduct = (req, res) => {
         const product = { ...req.body }
         try {
             existsOrError(product.name, 'Nome não informado')
@@ -17,7 +17,7 @@ module.exports = app => {
         product.status = 'pending'
 
         console.log('Save New Product')
-        console.log(product)
+        // console.log(product)
         app.db('products')
             .insert(product)
             .then(_ => res.status(204).send())
@@ -50,12 +50,39 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
-    const get = (req, res) => {
+    const getProducts = (req, res) => {
+        let query = {}
+        let id = "", name = "", description = "", price = "", observation = ""
+        if (req.query.status) query.status = req.query.status
+        if (req.query.filter) {
+            id = req.query.filter
+            name = req.query.filter
+            description = req.query.filter
+            price = req.query.filter
+            observation = req.query.filter
+        }
         app.db('products')
+            .where(query)
+            .andWhere(function () {
+                this.where('name', 'like', `%${name}%`)
+                    .orWhere('description', 'like', `%${description}%`)
+                    .orWhere('price', 'like', `%${price}%`)
+                    .orWhere('observation', 'like', `%${observation}%`)
+            })
+            .select('id', 'createdAt', 'name', 'description', 'price', 'status', 'observation')
+            .orderBy('createdAt', 'desc')
+            .then(products => res.json(products))
+            .catch(err => res.status(500).send(err))
+    }
+
+    const getProductPending = (req, res) => {
+        app.db('products')
+            .where({ status: 'pending' })
+            .first()
             .select('id', 'createdAt', 'name', 'description', 'price', 'status', 'observation')
             .then(products => res.json(products))
             .catch(err => res.status(500).send(err))
     }
 
-    return { save, get, saveResponse }
+    return { saveProduct, getProducts, saveResponse, getProductPending }
 }

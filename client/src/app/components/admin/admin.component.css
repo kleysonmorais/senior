@@ -1,4 +1,17 @@
+table {
+  white-space: nowrap;
+}
 
-  table {
-    width: 100%;
+table caption {
+  padding: .5em 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  table caption {
+    border-bottom: 1px solid #ddd;
   }
+}

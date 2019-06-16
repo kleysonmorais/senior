@@ -1,45 +1,55 @@
-<mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-</mat-form-field>
+<div class="col-md-12">
+  <mat-card class="mt-3 mb-3 animated fadeIn fast">
+    <div class="row">
+      <div class="col-8">
+        <mat-form-field class="full-width">
+          <input matInput (keyup)="applyFilter($event.target.value)" #filter placeholder="Filtrar por nome, decrição ou preço">
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="full-width">
+          <mat-label>Status</mat-label>
+          <mat-select [formControl]="actionControl">
+            <mat-option *ngFor="let action of actions" [value]="action.value" (click)="selectOption(filter.value)">
+              {{action.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-  <!-- id -->
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef> ID </th>
-    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-  </ng-container>
-
-  <!-- createAt -->
-  <ng-container matColumnDef="createAt">
-    <th mat-header-cell *matHeaderCellDef> Data de Criação </th>
-    <td mat-cell *matCellDef="let element"> {{element.createAt}} </td>
-  </ng-container>
-
-  <!-- nameRequester -->
-  <ng-container matColumnDef="nameRequester">
-    <th mat-header-cell *matHeaderCellDef> Solicitante </th>
-    <td mat-cell *matCellDef="let element"> {{element.nameRequester}} </td>
-  </ng-container>
-
-  <!-- descriptionItem  -->
-  <ng-container matColumnDef="descriptionItem">
-    <th mat-header-cell *matHeaderCellDef> Descrição </th>
-    <td mat-cell *matCellDef="let element"> {{element.descriptionItem}} </td>
-  </ng-container>
-
-  <!-- price -->
-  <ng-container matColumnDef="price">
-    <th mat-header-cell *matHeaderCellDef> Preço </th>
-    <td mat-cell *matCellDef="let element"> {{element.price}} </td>
-  </ng-container>
-
-  <!-- status -->
-  <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef> Status </th>
-    <td mat-cell *matCellDef="let element"> {{element.status}} </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead class="">
+          <tr>
+            <!-- <th>Data da Solicitação</th> -->
+            <th>Nome do Solicitante</th>
+            <th>Descrição do Item</th>
+            <th>Preço do Protudo</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products">
+            <!-- <td>{{ product.createdAt | date: 'dd/MM/yyyy' }}</td> -->
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>R$ {{ product.price }}</td>
+            <!-- <td>{{ product.status }}</td> -->
+            <td *ngIf="product.status === 'approve'"><span class="badge badge-pill badge-success">Aprovado</span></td>
+            <td *ngIf="product.status === 'refuse'"><span class="badge badge-pill badge-danger">Recusado</span></td>
+            <td *ngIf="product.status === 'pending'"><span class="badge badge-pill badge-warning">Pendente</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+          <li class="page-item"><a class="page-link" href="#">Próximo</a></li>
+        </ul>
+      </nav>
+    </div>
+  </mat-card>
+</div>

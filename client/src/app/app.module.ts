@@ -12,7 +12,7 @@ import { HomeComponent } from './components/home/home.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { HttpClientModule  } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import {
   MatCardModule,
@@ -21,12 +21,15 @@ import {
   MatSelectModule,
   MatFormFieldModule,
   MatTableModule,
-  MatInputModule
+  MatInputModule,
+  MatSnackBarModule
 } from '@angular/material';
 import { AdminComponent } from './components/admin/admin.component';
 import { RequestComponent } from './components/request/request.component';
 import { RouterModule } from '@angular/router';
 import { ApiService } from './services/api.service';
+
+import { CurrencyMaskModule } from "ng2-currency-mask";
 
 @NgModule({
   declarations: [
@@ -48,8 +51,10 @@ import { ApiService } from './services/api.service';
     ReactiveFormsModule,
     MatTableModule,
     MatInputModule,
+    MatSnackBarModule,
     RouterModule.forRoot([]),
-    HttpClientModule
+    HttpClientModule,
+    CurrencyMaskModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

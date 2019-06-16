@@ -14,12 +14,28 @@ const apiUrl = "http://localhost:3000";
 export class ApiService {
 
   url: String;
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     this.url = 'products'
   }
 
-  getProducts(): Observable<any> {
-    return this.http.get(`${apiUrl}/${this.url}`, httpOptions).pipe(
+  // getProducts(): Observable<any> {
+  //   return this.http.get(`${apiUrl}/${this.url}`, httpOptions).pipe(
+  //     map(this.extractData),
+  //     catchError(this.handleError));
+  // }
+
+  getProductPending(): Observable<any> {
+    return this.http.get(`${apiUrl}/${this.url}/pending`, httpOptions).pipe(
+      map(this.extractData),
+      catchError(this.handleError));
+  }
+
+  getProductsParams(filter?: string, status?: string): Observable<any> {
+    let params = "?"
+    if (filter) params += `filter=${filter}&`
+    if (status) params += `status=${status}`
+    let url = `${apiUrl}/${this.url}${params}`
+    return this.http.get(url).pipe(
       map(this.extractData),
       catchError(this.handleError));
   }
@@ -31,12 +47,6 @@ export class ApiService {
   //     catchError(this.handleError));
   // }
 
-  // getProductParams(paramKey: string, paramValue: string): Observable<any> {
-  //   let url = `${apiUrl}?${paramKey}=${paramValue}`
-  //   return this.http.get(url).pipe(
-  //     map(this.extractData),
-  //     catchError(this.handleError));
-  // }
 
   // getProduct(id: string): Observable<any> {
   //   const url = `${apiUrl}/${id}`;
@@ -73,6 +83,6 @@ export class ApiService {
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
     }
-    return throwError('Something bad happened; please try again later.');
+    return throwError(error.error);
   }
 }

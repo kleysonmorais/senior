@@ -1,0 +1,14 @@
+.full-width {
+    width: 100%;
+}
+
+.invalid-feedback-material {
+    margin-top: -0.99rem; 
+    font-size: 80%;
+    color: #dc3545;
+}
+
+.botton-material{
+    background-color: #2e8267;
+    color: #fff;
+}

@@ -1,67 +1,94 @@
-<mat-card class="mt-2">
-  <div class="jumbotron">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 offset-md-3">
-          <h2>Reactive Form Validation</h2>
-          <form [formGroup]="registerItem" (ngSubmit)="onSubmitItem()">
-            <div class="form-group">
-              <label>Nome</label>
-              <input type="text" placeholder="Solicitante" formControlName="name" class="form-control"
-                [ngClass]="{ 'is-invalid': submittedItem && f.name.errors }" />
-              <div *ngIf="submittedItem && f.name.errors" class="invalid-feedback">
-                <div *ngIf="f.name.errors.required">Nome é obrigatório</div>
+<div class="col-md-8 offset-md-2">
+  <mat-card class="mt-3 mb-3 animated fast"
+    [ngClass]="{'bounceInRight' : classBounceInRight, 'bounceOutLeft': classBounceOutLeft}">
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+        <h5>{{ profile === 'approver' ? 'Aprovação' : 'Solicitação' }} de Produto</h5>
+        <hr>
+        <div class="row">
+          <div class="col-sm">
+            <form [formGroup]="registerItem" (ngSubmit)="onSubmitItem()">
+              <div class="form-group">
+                <mat-form-field class="full-width">
+                  <input type="text" formControlName="name" matInput placeholder="Nome do Solicitante"
+                    [ngClass]="{ 'is-invalid': submittedItem && f.name.errors }" />
+                </mat-form-field>
+                <div *ngIf="submittedItem && f.name.errors" class="invalid-feedback-material">
+                  <mat-error *ngIf="f.name.errors.required">Informar o nome é obrigatório!</mat-error>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label>Descrição</label>
-              <textarea type="text" rows="4" placeholder="Descreva o item" formControlName="description"
-                class="form-control" [ngClass]="{ 'is-invalid': submittedItem && f.description.errors }"></textarea>
-              <div *ngIf="submittedItem && f.description.errors" class="invalid-feedback">
-                <div *ngIf="f.description.errors.required">Descrição é obrigatória</div>
+              <div class="form-group">
+                <mat-form-field class="full-width">
+                  <textarea rows="4" type="text" formControlName="description" matInput placeholder="Descrição do Item"
+                    [ngClass]="{ 'is-invalid': submittedItem && f.description.errors }"></textarea>
+                </mat-form-field>
+                <div *ngIf="submittedItem && f.description.errors" class="invalid-feedback-material">
+                  <mat-error *ngIf="f.description.errors.required">Informar uma descrição é obrigatório!</mat-error>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label>Preço</label>
-              <input type="number" placeholder="R$ 00,00" formControlName="price" class="form-control"
-                [ngClass]="{ 'is-invalid': submittedItem && f.price.errors }" />
-              <div *ngIf="submittedItem && f.price.errors" class="invalid-feedback">
-                <div *ngIf="f.price.errors.required">Preço é obrigatório</div>
+              <div class="form-group">
+                <mat-form-field class="full-width">
+                  <input currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                    formControlName="price" matInput placeholder="Preço do Produto"
+                    [ngClass]="{ 'is-invalid': submittedItem && f.price.errors }" />
+                </mat-form-field>
+                <div *ngIf="submittedItem && f.price.errors" class="invalid-feedback-material">
+                  <mat-error *ngIf="f.price.errors.required">Informar o preço é obrigatório!</mat-error>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <button [disabled]="loading" class="btn btn-primary">Solicitar</button>
-            </div>
-          </form>
+              <div class="form-group row" *ngIf="profile === 'requester'">
+                <div class="col-2 text-right">
+                  <div class="spinner-grow text-primary" role="status" *ngIf="loadingNewProduct">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </div>
+                <div class="col-10">
+                  <button class="btn btn-block botton-material" [disabled]="loadingNewProduct"
+                    mat-raised-button>Solicitar Novo Produto</button>
+                </div>
+              </div>
+            </form>
+          </div>
 
-          <form [formGroup]="resolveSolicitation" (ngSubmit)="onSubmitResponse()">
-            <div class="form-group">
-              <mat-form-field>
-                <mat-label>Responder</mat-label>
-                <mat-select [formControl]="actionControl" required>
-                  <!-- <mat-option>--</mat-option> -->
-                  <mat-option *ngFor="let action of actions" [value]="action.value">
-                    {{action.viewValue}}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngIf="actionControl.hasError('required')">Por favor, escolha uma ação!</mat-error>
-                <!-- <mat-hint>{{action.value?.sound}}</mat-hint> -->
-              </mat-form-field>
-            </div>
-            <div class="form-group">
-              <label>Observação</label>
-              <textarea type="text" rows="4" placeholder="Por favor, informe o motivo" formControlName="observation"
-                class="form-control" [ngClass]="{ 'is-invalid': submittedResponse && g.observation.errors }"></textarea>
-              <div *ngIf="submittedResponse && g.observation.errors" class="invalid-feedback">
-                <div *ngIf="g.observation.errors.required">Em caso de recusão, uma descrição é obrigatória</div>
+          <div class="col-sm" *ngIf="profile === 'approver'">
+            <form [formGroup]="resolveSolicitation" (ngSubmit)="onSubmitResponse()">
+              <div class="form-group">
+                <mat-form-field class="full-width">
+                  <mat-label>Responder</mat-label>
+                  <mat-select [formControl]="actionControl" required>
+                    <mat-option *ngFor="let action of actions" [value]="action.value" (click)="selectOption()">
+                      {{action.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="actionControl.hasError('required')">Por favor, escolha uma ação!</mat-error>
+                </mat-form-field>
               </div>
-            </div>
-            <div class="form-group">
-              <button [disabled]="loading" class="btn btn-primary">Salvar</button>
-            </div>
-          </form>
+              <div class="form-group">
+                <mat-form-field class="full-width">
+                  <textarea rows="4" type="text" formControlName="observation" matInput placeholder="Observação"
+                    [ngClass]="{ 'is-invalid': submittedResponse && g.observation.errors }"></textarea>
+                </mat-form-field>
+                <div *ngIf="submittedResponse && g.observation.errors" class="invalid-feedback-material">
+                  <mat-error *ngIf="g.observation.errors.required">Em caso de recusão, uma descrição é obrigatória!
+                  </mat-error>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-2 text-right">
+                  <div class="spinner-grow text-primary" role="status" *ngIf="loadingUpdateProduct">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                </div>
+                <div class="col-10">
+                  <button class="btn btn-block botton-material" [disabled]="loadingUpdateProduct" mat-raised-button>
+                    Salvar
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</mat-card>
+  </mat-card>
+</div>
