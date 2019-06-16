@@ -3,7 +3,8 @@
     <div class="row">
       <div class="col-8">
         <mat-form-field class="full-width">
-          <input matInput (keyup)="applyFilter($event.target.value)" #filter placeholder="Filtrar por nome, decrição ou preço">
+          <input matInput (keyup)="applyFilter($event.target.value)" #filter
+            placeholder="Filtrar por Nome, Decrição, Preço ou Observação">
         </mat-form-field>
       </div>
       <div class="col-4">
@@ -23,22 +24,23 @@
         <thead class="">
           <tr>
             <!-- <th>Data da Solicitação</th> -->
+            <th>Status</th>
             <th>Nome do Solicitante</th>
             <th>Descrição do Item</th>
             <th>Preço do Protudo</th>
-            <th>Status</th>
+            <th>Observação</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let product of products">
             <!-- <td>{{ product.createdAt | date: 'dd/MM/yyyy' }}</td> -->
-            <td>{{ product.name }}</td>
-            <td>{{ product.description }}</td>
-            <td>R$ {{ product.price }}</td>
-            <!-- <td>{{ product.status }}</td> -->
             <td *ngIf="product.status === 'approve'"><span class="badge badge-pill badge-success">Aprovado</span></td>
             <td *ngIf="product.status === 'refuse'"><span class="badge badge-pill badge-danger">Recusado</span></td>
             <td *ngIf="product.status === 'pending'"><span class="badge badge-pill badge-warning">Pendente</span></td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>R$ {{ product.price }}</td>
+            <td>{{ product.observation }}</td>
           </tr>
         </tbody>
       </table>

@@ -78,7 +78,7 @@ export class RequestComponent implements OnInit {
       product => {
         this.productPending = product
         if (Object.keys(this.productPending).length === 0) {
-          alert("Nenhuma Solicitação Pendente no Momento")
+          this.openSnackBar(`Nenhuma Solicitação Pendente no Momento`)
           this.actionControl.disable()
         } else {
           this.actionControl.enable()
@@ -86,6 +86,8 @@ export class RequestComponent implements OnInit {
         this.registerItem.controls['name'].setValue(this.productPending.name)
         this.registerItem.controls['description'].setValue(this.productPending.description)
         this.registerItem.controls['price'].setValue(this.productPending.price)
+      }, error => {
+        console.log(error)
       })
   }
 
@@ -167,10 +169,10 @@ export class RequestComponent implements OnInit {
     if (this.resolveSolicitation.value.observation !== "") data['observation'] = this.resolveSolicitation.value.observation
     if (this.productPending) {
       this.api.updateProduct(data, this.productPending.id).subscribe(_ => {
-        this.openSnackBar(`A solicitação do produto foi respondida com sucesso!`)
+        this.resolveSolicitation.controls['observation'].disable()
         this.loadingUpdateProduct = false
         this.configApprover()
-        this.resolveSolicitation.controls['observation'].disable()
+        this.openSnackBar(`A solicitação do produto foi respondida com sucesso!`)
         this.animationCardSucess()
       }, error => {
         alert(error)

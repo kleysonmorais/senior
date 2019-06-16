@@ -9,15 +9,11 @@ module.exports = app => {
             existsOrError(product.description, 'Descrição não informada')
             existsOrError(product.price, 'Preço não informado')
         } catch (exception) {
-            console.log(exception)
             return res.status(400).send(exception)
         }
 
         product.createdAt = new Date()
         product.status = 'pending'
-
-        console.log('Save New Product')
-        // console.log(product)
         app.db('products')
             .insert(product)
             .then(_ => res.status(204).send())
@@ -38,11 +34,9 @@ module.exports = app => {
                 .where({ id: product.id }).first()
             existsOrError(productFromDB, 'Produto não encontrado')
         } catch (exception) {
-            console.log(exception)
             return res.status(400).send(exception)
         }
 
-        console.log("Update Status Product")
         app.db('products')
             .update(product)
             .where({ id: product.id })
@@ -52,10 +46,9 @@ module.exports = app => {
 
     const getProducts = (req, res) => {
         let query = {}
-        let id = "", name = "", description = "", price = "", observation = ""
+        let name = "", description = "", price = "", observation = ""
         if (req.query.status) query.status = req.query.status
         if (req.query.filter) {
-            id = req.query.filter
             name = req.query.filter
             description = req.query.filter
             price = req.query.filter
