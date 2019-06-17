@@ -47,6 +47,10 @@ module.exports = app => {
     const getProducts = (req, res) => {
         let query = {}
         let name = "", description = "", price = "", observation = ""
+        let page = req.query.page || 1
+        let per_page = req.query.per_page || 10;
+        
+        if (page < 1) page = 1;
         if (req.query.status) query.status = req.query.status
         if (req.query.filter) {
             name = req.query.filter
@@ -54,6 +58,7 @@ module.exports = app => {
             price = req.query.filter
             observation = req.query.filter
         }
+
         app.db('products')
             .where(query)
             .andWhere(function () {
@@ -64,6 +69,7 @@ module.exports = app => {
             })
             .select('id', 'createdAt', 'name', 'description', 'price', 'status', 'observation')
             .orderBy('createdAt', 'desc')
+            .paginate(per_page, page, true)
             .then(products => res.json(products))
             .catch(err => res.status(500).send(err))
     }

@@ -18,22 +18,17 @@ export class ApiService {
     this.url = 'products'
   }
 
-  // getProducts(): Observable<any> {
-  //   return this.http.get(`${apiUrl}/${this.url}`, httpOptions).pipe(
-  //     map(this.extractData),
-  //     catchError(this.handleError));
-  // }
-
   getProductPending(): Observable<any> {
     return this.http.get(`${apiUrl}/${this.url}/pending`, httpOptions).pipe(
       map(this.extractData),
       catchError(this.handleError));
   }
 
-  getProductsParams(filter?: string, status?: string): Observable<any> {
+  getProductsParams(filter?: string, status?: string, page?: number): Observable<any> {
     let params = "?"
     if (filter) params += `filter=${filter}&`
-    if (status) params += `status=${status}`
+    if (status) params += `status=${status}&`
+    if (page) params += `page=${page}`
     let url = `${apiUrl}/${this.url}${params}`
     return this.http.get(url).pipe(
       map(this.extractData),

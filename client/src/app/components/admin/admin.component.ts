@@ -15,7 +15,8 @@ export interface Action {
 export class AdminComponent implements OnInit {
 
   products;
-  filter;
+  filterValue = '';
+  previousPage: any;
   subscribeProduct = products => this.products = products
   actionControl = new FormControl('');
   actions: Action[] = [
@@ -32,10 +33,18 @@ export class AdminComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    this.api.getProductsParams(filterValue.trim().toLowerCase(), this.actionControl.value).subscribe(this.subscribeProduct)
+    this.filterValue = filterValue
+    this.api.getProductsParams(this.filterValue.trim().toLowerCase(), this.actionControl.value).subscribe(this.subscribeProduct)
   }
 
-  selectOption(filterValue: string) {
-    this.api.getProductsParams(filterValue.trim().toLowerCase(), this.actionControl.value).subscribe(this.subscribeProduct)
+  selectOption() {
+    this.api.getProductsParams(this.filterValue.trim().toLowerCase(), this.actionControl.value).subscribe(this.subscribeProduct)
+  }
+
+  loadPage(page: number) {
+    if (page !== this.previousPage) {
+      this.previousPage = page;
+      this.api.getProductsParams(this.filterValue.trim().toLowerCase(), this.actionControl.value, page).subscribe(this.subscribeProduct)
+    }
   }
 }
