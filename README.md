@@ -73,6 +73,10 @@ A aplicação foi desenvolvida utilizando Angular 8 no Front-end e Node.js no Ba
     ```
 - A configuração padrão irá executar o [Front-end](http://localhost:4200) na porta 4200 e o Back-end na porta 3000.
 
+## Minificação de Arquivos
+
+- Os arquivos foram minificados utilizando o próprio **Angular Cli**, os mesmos estão localizados na pasta **client\dist\client**. Dessa forma, evitou-se criar as pastas css e js isoladas para não gerar nenhum tipo de conflito de caminho relativo.
+
 ## Material Complementar
 
 - [Angular Cli](https://cli.angular.io/)
