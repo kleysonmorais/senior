@@ -2,12 +2,9 @@ module.exports = {
   client: 'mysql',
   connection: {
     // host : '127.0.0.1',
-    // user : 'your_database_user',
-    user: 'root',
-    // password : 'your_database_password',
-    password: 'administrador',
-    // database : 'myapp_test'
-    database: 'senior'
+    user: 'root', // user : 'your_database_user'
+    password: 'administrador', // password : 'your_database_password'
+    database: 'senior' // database : 'myapp_test'
   },
   pool: {
     min: 2,

@@ -11,7 +11,6 @@ module.exports = app => {
         } catch (exception) {
             return res.status(400).send(exception)
         }
-
         product.createdAt = new Date()
         product.status = 'pending'
         app.db('products')
@@ -23,7 +22,6 @@ module.exports = app => {
     const saveResponse = async (req, res) => {
         const product = { ...req.body }
         if (req.params.id) product.id = req.params.id
-
         let productFromDB = undefined
         try {
             existsOrError(req.params.id, "ID não informado")
@@ -36,7 +34,6 @@ module.exports = app => {
         } catch (exception) {
             return res.status(400).send(exception)
         }
-
         app.db('products')
             .update(product)
             .where({ id: product.id })
@@ -49,7 +46,6 @@ module.exports = app => {
         let name = "", description = "", price = "", observation = ""
         let page = req.query.page || 1
         let per_page = req.query.per_page || 10;
-        
         if (page < 1) page = 1;
         if (req.query.status) query.status = req.query.status
         if (req.query.filter) {
@@ -58,7 +54,6 @@ module.exports = app => {
             price = req.query.filter
             observation = req.query.filter
         }
-
         app.db('products')
             .where(query)
             .andWhere(function () {

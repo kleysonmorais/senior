@@ -43,29 +43,17 @@ export class RequestComponent implements OnInit {
       description: ['', Validators.required],
       price: ['', [Validators.required]],
     });
-
     this.resolveSolicitation = this.formBuilder.group({
       observation: [{ value: '', disabled: true }, [Validators.required]]
     })
-
     const profileStorage = localStorage.getItem('profile')
     this.profile = profileStorage ? profileStorage : 'requester'
-    switch (this.profile) {
-      case 'requester':
-        this.configRequester()
-        break;
-      case 'approver':
-        this.configApprover()
-        break;
-    }
+    if (this.profile === 'approver') this.configApprover()
   }
 
   get f() { return this.registerItem.controls; }
   get g() { return this.resolveSolicitation.controls; }
 
-  configRequester() {
-
-  }
 
   configApprover() {
     this.registerItem.controls['name'].disable()
@@ -73,7 +61,6 @@ export class RequestComponent implements OnInit {
     this.registerItem.controls['price'].disable()
     this.actionControl.setValue(' ')
     this.resolveSolicitation.controls['observation'].setValue(' ')
-
     this.api.getProductPending().subscribe(
       product => {
         this.productPending = product
@@ -93,39 +80,27 @@ export class RequestComponent implements OnInit {
 
   onSubmitItem() {
     this.submittedItem = true;
-
     if (this.validString(this.registerItem.controls['name'].value))
       this.registerItem.controls['name'].setValue('')
-
     if (this.validString(this.registerItem.controls['description'].value))
       this.registerItem.controls['description'].setValue('')
-
     if (this.registerItem.controls['price'].value === 0
       || this.registerItem.controls['price'].value === ' ') {
       this.registerItem.controls['price'].setValue('')
     }
-    console.log(this.registerItem.value)
     if (this.registerItem.invalid) return
-
     this.loadingNewProduct = true;
-
-    console.log(this.registerItem.value)
     this.api.postProduct(this.registerItem.value).subscribe(_ => {
       this.submittedItem = false;
       this.loadingNewProduct = false;
-
       this.openSnackBar(`${this.registerItem.controls['name'].value}, o produto foi solicitado com sucesso.`)
       this.registerItem.reset()
       this.registerItem.controls['name'].setValue(' ')
       this.registerItem.controls['name'].updateValueAndValidity()
-
       this.registerItem.controls['description'].setValue(' ')
       this.registerItem.controls['description'].updateValueAndValidity()
-
       this.registerItem.controls['price'].setValue(' ')
       this.registerItem.controls['price'].updateValueAndValidity()
-
-
       this.animationCardSucess()
     }, error => {
       alert(error)
@@ -152,17 +127,13 @@ export class RequestComponent implements OnInit {
 
   onSubmitResponse() {
     this.submittedResponse = true;
-
     if (this.validString(this.actionControl.value))
       this.actionControl.setValue('')
-
     if (this.validString(this.resolveSolicitation.controls['observation'].value))
       this.resolveSolicitation.controls['observation'].setValue('')
-
     if (this.resolveSolicitation.invalid || this.actionControl.invalid) {
       return
     }
-
     this.loadingUpdateProduct = true
     let data = {};
     data['status'] = this.actionControl.value;
