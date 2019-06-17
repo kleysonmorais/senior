@@ -23,7 +23,7 @@ A aplicação foi desenvolvida utilizando Angular 8 no Front-end e Node.js no Ba
 
 - Clone ou baixe este repositório;
 - Inicialize dois ambientes de **linha de comando** no root da pasta `senior` ;
-- Realize a instalação das dependências, para cada ambiente iniciado, atente-se em executar o comando dentro das pastas `client` e `server`:
+- Realize a instalação das dependências, em cada ambiente iniciado, atente-se em executar o comando dentro das pastas `client` e `server`:
 
     ```bash
     $Bash1
@@ -60,7 +60,7 @@ A aplicação foi desenvolvida utilizando Angular 8 no Front-end e Node.js no Ba
 
 ## Executando a Aplicação
 
-- Utilizando os mesmos ambientes de **linha de comando** iniciados, execute os seguintes comandos para rodar a aplicação:
+- Utilizando os mesmos ambientes de **linha de comando** inicializados, execute os seguintes comandos para rodar a aplicação:
 
     ```bash
     $Bash1
